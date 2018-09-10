@@ -1,4 +1,4 @@
-# qpet-vue
+# vue-start-kit
 
 ## Project setup
 ```
