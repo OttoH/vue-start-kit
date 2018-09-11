@@ -3,8 +3,6 @@ const fs = require('fs')
 const webpack = require('webpack')
 
 const CleanWebpackPlugin = require('clean-webpack-plugin')
-const ManifestPlugin = require('webpack-manifest-plugin')
-// const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require("mini-css-extract-plugin")
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
 
@@ -61,7 +59,10 @@ const config = {
   },
 
   plugins: [
-    new CleanWebpackPlugin(['/dist']),
+    new CleanWebpackPlugin(['dist'], {
+      root: setPath('../'),
+      verbose: true
+    }),
     new VueLoaderPlugin(),
     new MiniCssExtractPlugin({
       // Options similar to the same options in webpackOptions.output
@@ -69,7 +70,6 @@ const config = {
       filename: "css/style.[hash].css",
       chunkFilename: "[id].css"
     }),
-    new ManifestPlugin(),
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify(NODE_ENV || 'development'),
