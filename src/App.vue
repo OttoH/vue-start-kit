@@ -6,29 +6,31 @@
     -moz-osx-font-smoothing: grayscale;
     text-align: center;
     color: #2c3e50;
-    margin-top: 60px;
 }
 
 </style>
 
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App" />
+    <router-link to="/" exact>
+      <img alt="Vue logo" src="./assets/logo.png">
+    </router-link>
+    <div>
+      <router-link to="/helloworld">hellow vue</router-link>
+      <router-link to="/otherworld">other</router-link>
+    </div>
+    <transition name="fade" mode="out-in">
+      <router-view class="view"></router-view>
+    </transition>
   </div>
 </template>
 
 <script lang="ts">
 
 import Vue from 'vue'
-import HelloWorld from './components/HelloWorld.vue'
 
 export default Vue.extend({
-  name: 'app',
-
-  components: {
-    HelloWorld
-  }
+  name: 'app'
 })
 
 </script>

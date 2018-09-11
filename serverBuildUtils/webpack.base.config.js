@@ -3,11 +3,11 @@ const fs = require('fs')
 const webpack = require('webpack')
 
 const CleanWebpackPlugin = require('clean-webpack-plugin')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require("mini-css-extract-plugin")
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
 
 const NODE_ENV = process.env.NODE_ENV
+const isProd = NODE_ENV === 'production'
 
 const setPath = function(folderName) {
   return path.join(__dirname, folderName)
@@ -20,55 +20,38 @@ const setPublicPath = () => {
 
     case 'development':
     default:
-      return '/'
+      return '/dist/'
   }
 }
 
-const extractHTML = new HtmlWebpackPlugin({
-  title: 'qpet vue',
-  filename: 'index.html',
-  inject: true,
-  template: setPath('/public/index.html'),
-  BASE_URL: '/',
-  minify: {
-    removeAttributeQuotes: true,
-    collapseWhitespace: true,
-    html5: true,
-    minifyCSS: true,
-    removeComments: true,
-    removeEmptyAttributes: true
-  },
-  environment: process.env.NODE_ENV,
-  isLocalBuild: true,
-  imgPath: 'src/assets'
-})
-
-
 const config = {
-   entry: {
-     build: path.join(setPath('src'), 'main.ts')
-   },
-
   output: {
-    path: path.resolve(__dirname), //this one sets the path to serve
+    path: setPath('../dist'), //this one sets the path to serve
     publicPath: setPublicPath(),
-    filename: '[name].js'
+    filename: '[name].[chunkhash].js'
   },
 
   optimization:{
     runtimeChunk: false,
     splitChunks: {
-      chunks: "all", //Taken from https://gist.github.com/sokra/1522d586b8e5c0f5072d7565c2bee693
+      cacheGroups: {
+        vendors: {
+          test: /[\\/]node_modules[\\/]/,
+          priority: -10
+        }
+      }
     }
   },
 
   resolveLoader: {
-    modules: [setPath('node_modules')]
+    modules: [setPath('../node_modules')]
   },
 
-  mode: 'development',
+  mode: isProd ? 'production' : 'development',
 
-  devtool: 'cheap-source-map',
+  devtool: isProd
+    ? false
+    : '#cheap-module-source-map',
 
   devServer: {
     historyApiFallback: true,
@@ -76,9 +59,11 @@ const config = {
   },
 
   plugins: [
-    new CleanWebpackPlugin(['dist']),
+    new CleanWebpackPlugin(['dist'], {
+      root: setPath('../'),
+      verbose: true
+    }),
     new VueLoaderPlugin(),
-    extractHTML,
     new MiniCssExtractPlugin({
       // Options similar to the same options in webpackOptions.output
       // both options are optional
@@ -87,7 +72,8 @@ const config = {
     }),
     new webpack.DefinePlugin({
       'process.env': {
-        NODE_ENV: JSON.stringify(NODE_ENV)
+        NODE_ENV: JSON.stringify(NODE_ENV || 'development'),
+        'process.env.VUE_ENV': isProd ? '"server"' : '"client"'
       }
     })
   ],
@@ -116,7 +102,7 @@ const config = {
       },
       {
         test: /\.js$/,
-        exclude: /(node_modules)/,
+        exclude: /node_modules/,
         use: ['babel-loader']
       },
       {
@@ -164,6 +150,10 @@ const config = {
       }
     ]
   },
+  performance: {
+    maxEntrypointSize: 300000,
+    hints: isProd ? 'warning' : false
+  }
 }
 
 module.exports = config
