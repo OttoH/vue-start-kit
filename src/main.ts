@@ -1,8 +1,2 @@
-import Vue from 'vue'
+/* temporary ts file to make ts-load has a input file */
 import App from './App.vue'
-
-Vue.config.productionTip = false
-
-new Vue({
-  render: h => h(App)
-}).$mount('#app')

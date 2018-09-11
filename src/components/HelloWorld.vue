@@ -50,8 +50,6 @@ a {
         <li><a href="https://vue-loader.vuejs.org" target="_blank" rel="noopener">vue-loader</a></li>
         <li><a href="https://github.com/vuejs/awesome-vue" target="_blank" rel="noopener">awesome-vue</a></li>
     </ul>
-    <h3>playground</h3>
-      <button @click='appendMsg("1", $event)'>click me {{playground}}</button>
 </div>
 
 </template>
@@ -67,16 +65,10 @@ export default Vue.extend({
   },
 
   data () {
-    return {
-      playground: ''
-    }
+    return {}
   },
 
-  methods: {
-    appendMsg: function (attach: string, event: any): void {
-      this.playground += `-click${attach}`
-    }
-  }
+  methods: {}
 })
 
 </script>
