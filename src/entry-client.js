@@ -1,4 +1,5 @@
 import Vue from 'vue'
+
 import { createApp } from './app'
 
 const { app, router } = createApp()
@@ -18,6 +19,13 @@ Vue.mixin({
 })
 
 router.onReady(() => {
+  // init liff
+  if (liff) {
+    liff.init(function (d) {
+      console.log('liff init', d.context.userId)
+    })
+  }
+
   // Add router hook for handling asyncData.
   // Doing it after initial route is resolved so that we don't double-fetch
   // the data that we already have. Using router.beforeResolve() so that all

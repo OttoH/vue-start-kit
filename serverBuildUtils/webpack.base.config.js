@@ -2,7 +2,7 @@ const path = require('path')
 const fs = require('fs')
 const webpack = require('webpack')
 
-const CleanWebpackPlugin = require('clean-webpack-plugin')
+// const CleanWebpackPlugin = require('clean-webpack-plugin')
 const MiniCssExtractPlugin = require("mini-css-extract-plugin")
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
 
@@ -16,7 +16,7 @@ const setPath = function(folderName) {
 const setPublicPath = () => {
   switch (NODE_ENV) {
     case 'production':
-      return ''
+      return '/dist/'
 
     case 'development':
     default:
@@ -59,10 +59,6 @@ const config = {
   },
 
   plugins: [
-    new CleanWebpackPlugin(['dist'], {
-      root: setPath('../'),
-      verbose: true
-    }),
     new VueLoaderPlugin(),
     new MiniCssExtractPlugin({
       // Options similar to the same options in webpackOptions.output
@@ -137,13 +133,10 @@ const config = {
         ]
       },
       {
-        test: /\.svg$/,
-        loader: 'svg-sprite-loader'
-      },
-      {
-        test: /\.(png|jpg|gif)$/,
+        test: /\.(png|jpg|gif|svg)$/,
         loader: 'file-loader',
         query: {
+          limit: 10000,
           name: '[name].[ext]?[hash]',
           useRelativePath: true
         }

@@ -8,6 +8,8 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <link rel="apple-touch-icon" sizes="120x120" href="/public/logo-120.png">
     <meta name="viewport" content="width=device-width, initial-scale=1, minimal-ui">
+    <link rel="dns-prefetch" href="//d.line-scdn.net">
+    <link rel="preload" href="https://d.line-scdn.net/liff/1.0/sdk.js" as="script">
     <style>
       #skip a {  position:absolute;  left:-10000px;  top:auto;  width:1px;  height:1px;  overflow:hidden;  }
       #skip a:focus {  position:static;  width:auto;  height:auto;  }
@@ -15,7 +17,7 @@
   </head>
   <body>
   <div id="skip"><a href="#app">skip to content</a></div>
-  <div>The visited URL is: {{ url }}</div>
+  <script src="https://d.line-scdn.net/liff/1.0/sdk.js"></script>
   <!--vue-ssr-outlet-->
   </body>
 </html>
