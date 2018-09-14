@@ -2,7 +2,6 @@ const path = require('path')
 const fs = require('fs')
 const webpack = require('webpack')
 
-// const CleanWebpackPlugin = require('clean-webpack-plugin')
 const MiniCssExtractPlugin = require("mini-css-extract-plugin")
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
 
@@ -68,8 +67,7 @@ const config = {
     }),
     new webpack.DefinePlugin({
       'process.env': {
-        NODE_ENV: JSON.stringify(NODE_ENV || 'development'),
-        'process.env.VUE_ENV': isProd ? '"server"' : '"client"'
+        NODE_ENV: JSON.stringify(NODE_ENV || 'development')
       }
     })
   ],

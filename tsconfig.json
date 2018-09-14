@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
-    "target": "es5",
-    "module": "es2015",
+    "target": "es2015",
+    "module": "commonjs",
     "strict": true,
     "noImplicitAny": true,
     "allowSyntheticDefaultImports": true,
@@ -9,10 +9,21 @@
     "allowJs": false,
     "moduleResolution": "node",
     "sourceMap": true,
+    "types": [
+      "node"
+    ],
     "typeRoots": [
-      "./types",
-      "./node_modules/vue/types"
-    ]
+      "types",
+      "node_modules/vue/types",
+      "node_modules/@types/"
+    ],
+    "baseUrl": "./",
+    "paths": {
+      "createApi": [
+        "src/api/create-api-client",
+        "src/api/create-api-server"
+      ]
+    }
   },
   "exclude": [
     "node_modules"

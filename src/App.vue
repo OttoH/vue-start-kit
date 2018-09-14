@@ -57,13 +57,10 @@ a.router-link-active {
       <router-view class="view"></router-view>
     </transition>
     <div class="debug" v-if="isShowDebug">
-      <p>
-        {{ liffCtx.viewType }}
-        {{ liffctx.userId }}
-        {{ liffCtx.roomId }}
-        {{ liffCtx.groupId }}
-      </p>
-      <p>{{ liffErrMsg }}</p>
+      <div v-for="val in liffCtx">
+        <span>{{ val }}</span>
+      </div>
+      <p>{{ liffErrMsg}}</p>
     </div>
   </div>
 </template>
@@ -84,7 +81,10 @@ export default Vue.extend({
 
   mounted: function () {
     liff.init((d: any) => {
-      this.liffCtx = d.context
+      this.liffCtx = d.context || {}
+      if (d.context) {
+        window.alert(d.context.userId)
+      }
     }, (err: any) => {
       console.log(err.message)
       this.liffErrMsg = <string> err.message

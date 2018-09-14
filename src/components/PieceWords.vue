@@ -48,8 +48,9 @@
 <template>
 
 <div>
-  <div class="directive">long press on items to delete~</div>
-  <ul class="word-list">
+  <div class="directive" v-if="words.length > 0">long press on items to delete~</div>
+  <div class="directive" v-else>loading...</div>
+  <ul class="word-list" v-show="words.length > 0">
     <li class="word-cell" v-for="(word, idx) in words">
       <button class="word-btn" key="`w${idx}`" @click="sendText(word)" v-long-press="deleteWord">{{ word }}</button>
     </li>
@@ -65,7 +66,9 @@
 <script lang="ts">
 
 import Vue from "vue"
-// import { sendLiffMsg } from '../lib/liff-starter.js'
+
+import { firebaseSetting } from '../lib/consts'
+import { fetch, write } from '../api'
 
 export default Vue.extend({
   props: {
@@ -74,20 +77,17 @@ export default Vue.extend({
 
   data () {
     return {
-      words: [
-        'hello',
-        'how\'s it goinig on today',
-        'suit up!!',
-        '幹嘛啦',
-        '我想想',
-        '在幹嘛',
-        '好煩',
-        '等等喔',
-        '少來'
-      ],
+      words: <string[]> [],
       isShowAddText: false,
       addText: ''
     }
+  },
+
+  beforeMount () {
+    fetch(firebaseSetting.masgs)
+    .then((val: string) => {
+      this.words = val.split(',')
+    })
   },
 
   methods: {
@@ -116,6 +116,8 @@ export default Vue.extend({
         if (this.addText && this.addText !== '') {
           this.words = this.words.concat(this.addText.trim())
           this.addText = ''
+          // write back to db
+          write(this.words.join(','))
         }
       }
     },
@@ -124,6 +126,8 @@ export default Vue.extend({
       this.words = this.words.filter((word) => {
         return word !== delWord
       })
+      // write back to db
+      write(this.words.join(','))
     }
   }
 })
