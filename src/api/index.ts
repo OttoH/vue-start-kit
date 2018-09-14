@@ -2,7 +2,6 @@ declare const Promise: any;
 
 // this is aliased in webpack config based on server/client build
 import { createAPI } from 'createApi'
-import { firebaseSetting } from '../lib/consts'
 
 const logRequests = !!process.env.DEBUG_API
 
@@ -33,8 +32,6 @@ export const fetch = (child: string): Promise<string> => {
 
 export const write = (child: string, text: string): void => {
   if (text) {
-    api.db.set({
-      [child]: text
-    })
+    api.db.child(child).set(text)
   }
 }

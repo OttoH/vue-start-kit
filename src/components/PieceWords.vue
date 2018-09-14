@@ -59,7 +59,7 @@
       <button class="word-btn add-btn" @click="toggleAddText"></button>
     </li>
   </ul>
-  <div class="debug" v-if="isShowDebug">
+  <div class="debug" v-if="isShowDebug()">
     <div v-for="val in liffCtx">
       <span>{{ val }}</span>
     </div>
@@ -93,21 +93,34 @@ export default Vue.extend({
   },
 
   mounted () {
+    const fetchDefaultData = (): any =>
+      fetch('default')
+      .then((val: string) => {
+        this.words = val.split(',')
+      })
+
     liff.init((d: any) => {
       this.liffCtx = d.context || {}
 
-      // fetch firebase
-      fetch(d.context.userId)
-      .then((val: string) => {
-        this.words = val.split(',')
+      liff.getProfile().then((profile: liffProfile) => {
+        this.userId = profile.userId
+        // fetch firebase
+        fetch(d.context.userId)
+        .then((val: string) => {
+          if (val) {
+            this.words = val.split(',')
+          } else {
+            fetchDefaultData().then(() => {
+              // inital new user words
+              write(d.context.userId, this.words.join(','))
+            })
+          }
+        })
       })
     }, (err: any) => {
       this.liffErrMsg = <string> err.message
       // fetch default firebase data
-      fetch(this.userId)
-      .then((val: string) => {
-        this.words = val.split(',')
-      })
+      fetchDefaultData()
     })
   },
 
@@ -151,7 +164,10 @@ export default Vue.extend({
       write(this.userId, this.words.join(','))
     },
     isShowDebug: function (): boolean {
-      return (this.liffCtx !== {}) || Boolean(this.liffErrMsg)
+      return (
+        process.env.NODE_ENV !== 'production' &&
+        (this.liffCtx !== {} || Boolean(this.liffErrMsg))
+      )
     }
   }
 })

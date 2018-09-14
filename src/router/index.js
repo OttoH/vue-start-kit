@@ -4,7 +4,7 @@ import Router from 'vue-router'
 Vue.use(Router)
 
 const PieceWordsView = () => import('../components/PieceWords.vue')
-const MemoStickersView = () => import('../components/MemoStickers.vue')
+const MoraMoraView = () => import('../components/MoraMora.vue')
 
 export function createRouter () {
   return new Router({
@@ -13,7 +13,7 @@ export function createRouter () {
     scrollBehavior: () => ({ y: 0 }),
     routes: [
       { path: '/piecewords', component: PieceWordsView, props: { msg: 'passing props to HelloWorld'} },
-      { path: '/memostickers', component: MemoStickersView },
+      { path: '/moramora', component: MoraMoraView },
       { path: '/', redirect: '/piecewords' }
     ]
   })

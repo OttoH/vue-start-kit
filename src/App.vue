@@ -21,7 +21,6 @@
   min-width: 64px;
   height: 32px;
   line-height: 32px;
-  margin-right: 12px;
   color: #9d9797;
   padding: 6px 8px;
   border-radius: 6px 6px 0 0 ;
@@ -51,7 +50,7 @@ a.router-link-active {
   <div id="app">
     <div class="tab-bar">
       <router-link class="tab" to="/piecewords">Piece of Words</router-link>
-      <router-link class="tab" to="/memostickers" >Memo Stickers</router-link>
+      <router-link class="tab" to="/moramora" >Memo Stickers</router-link>
     </div>
     <transition name="fade" mode="out-in">
       <router-view class="view"></router-view>

@@ -24,8 +24,7 @@ export function createAPI (firebaseApiParams: firebaseApiParams): api  {
   if (process.__API__) {
     api.db = process.__API__
   } else {
-    const defaultApp = firebase.initializeApp(firebaseApiParams.config)
-    console.log(defaultApp.name)
+    firebase.initializeApp(firebaseApiParams.config)
     api.db = process.__API__ = firebase.database().ref(firebaseApiParams.version)
 
     api.onServer = true
@@ -34,12 +33,6 @@ export function createAPI (firebaseApiParams: firebaseApiParams): api  {
     api.cachedItems = require('lru-cache')({
       max: 1000,
       maxAge: 1000 * 60 * 15 // 15 min cache
-    })
-
-    // cache the latest msgs ids
-    api.cachedIds = {}
-    api.db.child(`masgs`).on('value', (snapshot: any) => {
-      api.cachedIds['masgs'] = snapshot.val()
     })
   }
   return api
