@@ -56,12 +56,6 @@ a.router-link-active {
     <transition name="fade" mode="out-in">
       <router-view class="view"></router-view>
     </transition>
-    <div class="debug" v-if="isShowDebug">
-      <div v-for="val in liffCtx">
-        <span>{{ val }}</span>
-      </div>
-      <p>{{ liffErrMsg}}</p>
-    </div>
   </div>
 </template>
 
@@ -71,31 +65,6 @@ import Vue from 'vue'
 
 export default Vue.extend({
   name: 'app',
-
-  data () {
-    return {
-      liffCtx: {},
-      liffErrMsg: ''
-    }
-  },
-
-  mounted: function () {
-    liff.init((d: any) => {
-      this.liffCtx = d.context || {}
-      if (d.context) {
-        window.alert(d.context.userId)
-      }
-    }, (err: any) => {
-      console.log(err.message)
-      this.liffErrMsg = <string> err.message
-    })
-  },
-
-  methods: {
-    isShowDebug: function (): boolean {
-      return (this.liffCtx !== {}) || Boolean(this.liffErrMsg)
-    }
-  }
 })
 
 </script>

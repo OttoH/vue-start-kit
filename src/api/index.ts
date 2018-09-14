@@ -23,10 +23,6 @@ export const fetch = (child: string): Promise<string> => {
     return new Promise((resolve: any, reject: any) => {
       api.db.child(child).once('value', (snapshot: any) => {
         const val = snapshot.val()
-        // mark the timestamp when this item is cached
-        // if (val) {
-        //   val.__lastUpdated = Date.now()
-        // }
         cache && cache.set(child, val)
         logRequests && console.log(`fetched ${child}.`)
         resolve(val)
@@ -35,10 +31,10 @@ export const fetch = (child: string): Promise<string> => {
   }
 }
 
-export const write = (text: string): void => {
+export const write = (child: string, text: string): void => {
   if (text) {
     api.db.set({
-      [firebaseSetting.masgs]: text
+      [child]: text
     })
   }
 }

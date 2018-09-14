@@ -1,5 +1,5 @@
 interface firebaseApiParams {
-  config: { databaseURL: string };
+  config: { databaseURL: string }
   version: string
 }
 

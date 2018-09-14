@@ -59,6 +59,12 @@
       <button class="word-btn add-btn" @click="toggleAddText"></button>
     </li>
   </ul>
+  <div class="debug" v-if="isShowDebug">
+    <div v-for="val in liffCtx">
+      <span>{{ val }}</span>
+    </div>
+    <p>{{ liffErrMsg}}</p>
+  </div>
 </div>
 
 </template>
@@ -77,16 +83,31 @@ export default Vue.extend({
 
   data () {
     return {
+      userId: 'default',
       words: <string[]> [],
       isShowAddText: false,
-      addText: ''
+      addText: '',
+      liffCtx: {},
+      liffErrMsg: ''
     }
   },
 
-  beforeMount () {
-    fetch(firebaseSetting.masgs)
-    .then((val: string) => {
-      this.words = val.split(',')
+  mounted () {
+    liff.init((d: any) => {
+      this.liffCtx = d.context || {}
+
+      // fetch firebase
+      fetch(d.context.userId)
+      .then((val: string) => {
+        this.words = val.split(',')
+      })
+    }, (err: any) => {
+      this.liffErrMsg = <string> err.message
+      // fetch default firebase data
+      fetch(this.userId)
+      .then((val: string) => {
+        this.words = val.split(',')
+      })
     })
   },
 
@@ -117,7 +138,7 @@ export default Vue.extend({
           this.words = this.words.concat(this.addText.trim())
           this.addText = ''
           // write back to db
-          write(this.words.join(','))
+          write(this.userId, this.words.join(','))
         }
       }
     },
@@ -127,7 +148,10 @@ export default Vue.extend({
         return word !== delWord
       })
       // write back to db
-      write(this.words.join(','))
+      write(this.userId, this.words.join(','))
+    },
+    isShowDebug: function (): boolean {
+      return (this.liffCtx !== {}) || Boolean(this.liffErrMsg)
     }
   }
 })
