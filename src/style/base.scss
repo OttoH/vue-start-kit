@@ -13,10 +13,24 @@ a {
     text-decoration: none;
 }
 
+button {
+  cursor: pointer;
+}
+
 button:focus {
   outline: none;
 }
 
 input[type="text"]:focus {
   outline: none;
+}
+
+/* common classes */
+.directive {
+  margin: 6px 0 ;
+  text-align: center;
+  color: #9d9797;
+  font-size: 12px;
+  height: 32px;
+  line-height: 32px;
 }

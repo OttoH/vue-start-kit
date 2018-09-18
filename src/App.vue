@@ -12,18 +12,17 @@
 
 .tab-bar {
   display: block;
-  border-bottom: solid 1px #b9b3b3;
-  margin-top: 16px;
+  margin-top: 8px;
 }
 
 .tab {
   display: inline-block;
-  min-width: 64px;
+  min-width: 48px;
   height: 32px;
   line-height: 32px;
   color: #9d9797;
   padding: 6px 8px;
-  border-radius: 6px 6px 0 0 ;
+  background: #fff;
 }
 
 a {
@@ -31,9 +30,7 @@ a {
 }
 
 a.router-link-active {
-  border-top: solid 1px #b9b3b3;
-  border-left: solid 1px #b9b3b3;
-  border-right: solid 1px #b9b3b3;
+  border-bottom: solid 1px #b9b3b3;
 }
 
 .debug {
@@ -49,8 +46,8 @@ a.router-link-active {
 <template>
   <div id="app">
     <div class="tab-bar">
-      <router-link class="tab" to="/piecewords">Piece of Words</router-link>
-      <router-link class="tab" to="/moramora" >Memo Stickers</router-link>
+      <router-link class="tab" to="/piecewords">HELLO WORD</router-link>
+      <router-link class="tab" to="/moramora" >MORA MORA</router-link>
     </div>
     <transition name="fade" mode="out-in">
       <router-view class="view"></router-view>
@@ -63,7 +60,7 @@ a.router-link-active {
 import Vue from 'vue'
 
 export default Vue.extend({
-  name: 'app',
+  name: 'app'
 })
 
 </script>

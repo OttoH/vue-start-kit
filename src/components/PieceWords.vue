@@ -36,13 +36,6 @@
   text-indent: 6px;
 }
 
-.directive {
-  margin-top: 12px;
-  text-align: center;
-  color: #9d9797;
-  font-size: 12px;
-}
-
 </style>
 
 <template>

@@ -30,8 +30,20 @@ export const fetch = (child: string): Promise<string> => {
   }
 }
 
-export const write = (child: string, text: string): void => {
-  if (text) {
-    api.db.child(child).set(text)
+export const fetchWithListen = (child: string, cb: any): Promise<string> => {
+  logRequests && console.log(`fetching & listener ${child}...`)
+  return api.db.child(child).on('value', cb, (err: any) => {
+    console.log(`fetchWithListen fail`, err)
+  })
+}
+
+export const stopFetchWithListen = (child: string, cb: any): void => {
+  logRequests && console.log(`stopping & listener ${child}...`)
+  if (api && api.db && api.db.child(child)) {
+    api.db.child(child).off('value', cb)
   }
+}
+
+export const write = (child: string, text: string | null): Promise<string> => {
+  return api.db.child(child).set(text)
 }

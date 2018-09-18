@@ -1,5 +1,6 @@
 declare interface liffProfile {
   userId: string
+  utouId: string
   displayName: string
   pictureUrl: String
   statusMessage: string
