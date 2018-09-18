@@ -83,7 +83,7 @@ const config = {
         loader: 'vue-loader'
       },
       {
-        test: /\.ts?$/,
+        test: /\.tsx?$/,
         use: [
           'babel-loader',
           {
@@ -91,8 +91,15 @@ const config = {
             options: {
               appendTsSuffixTo: [/\.vue$/]
             }
-          }
+          },
+          'tslint-loader'
         ]
+      },
+      {
+        test: /\.ts$/,
+        exclude: /node_modules/,
+        enforce: 'pre',
+        loader: 'tslint-loader'
       },
       {
         test: /\.js$/,

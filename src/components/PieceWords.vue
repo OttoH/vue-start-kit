@@ -64,7 +64,7 @@
 
 <script lang="ts">
 
-import Vue from "vue"
+import Vue from 'vue'
 
 import { firebaseSetting } from '../lib/consts'
 import { fetch, write } from '../api'
@@ -77,7 +77,7 @@ export default Vue.extend({
   data () {
     return {
       userId: 'default',
-      words: <string[]> [],
+      words: [] as string[],
       isShowAddText: false,
       addText: '',
       liffCtx: {},
@@ -111,7 +111,7 @@ export default Vue.extend({
         })
       })
     }, (err: any) => {
-      this.liffErrMsg = <string> err.message
+      this.liffErrMsg = err.message as string
       // fetch default firebase data
       fetchDefaultData()
     })
@@ -131,11 +131,11 @@ export default Vue.extend({
           console.log('send error', error)
         })
       }
-     },
+    },
     toggleAddText: function (): void {
       this.isShowAddText = !this.isShowAddText
       if (this.isShowAddText) {
-        const addTextInput = <HTMLInputElement> this.$refs.addTextInput
+        const addTextInput = this.$refs.addTextInput as HTMLInputElement
         this.$nextTick(function () {
           addTextInput.focus()
         })

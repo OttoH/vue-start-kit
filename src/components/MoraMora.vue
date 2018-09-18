@@ -83,10 +83,10 @@
 
 <script lang="ts">
 
-import Vue from "vue"
+import Vue from 'vue'
 import { fetchWithListen, stopFetchWithListen, write } from '../api'
 
-declare interface stickerMap {
+declare interface StickerMap {
   scissors: string
   stone: string
   cloth: string
@@ -108,7 +108,7 @@ export default Vue.extend({
   },
 
   mounted () {
-    const stickerMap: stickerMap = {
+    const stickerMap: StickerMap = {
       scissors: '￼￼✌️',
       stone: '✊',
       cloth: '🖐'
@@ -135,7 +135,7 @@ export default Vue.extend({
           this.morraResult = 'NA'
           this.directive = 'morra sent!'
 
-          const tid = setTimeout(()=> {
+          const tid = setTimeout(() => {
             this.directive = 'mora mora - press 來猜拳!!!'
             this.isShowGameItemButton = false
 
@@ -156,7 +156,7 @@ export default Vue.extend({
           this.morraResult = 'NA'
           this.directive = 'morra sent!'
 
-          const tid = setTimeout(()=> {
+          const tid = setTimeout(() => {
             this.directive = 'mora mora - press 來猜拳!!!'
             this.isShowGameItemButton = false
 
@@ -180,7 +180,7 @@ export default Vue.extend({
         fetchWithListen(this.dbRef, updateListener)
       })
     }, (err: any) => {
-      this.liffErrMsg = <string> err.message
+      this.liffErrMsg = err.message as string
 
       // test game when not in app
       this.userId = `${Math.floor(Math.random() * 10) % 2}`
