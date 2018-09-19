@@ -1,6 +1,10 @@
 import Vue from 'vue'
+
 import App from './App.vue'
 import { createRouter } from './router'
+import longPress from './plugins/longPress'
+
+Vue.use(longPress, 1000)
 
 // export a factory function for creating fresh app, router and store
 // instances

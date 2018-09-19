@@ -7,6 +7,13 @@ const config = merge(base, {
   entry: {
     app: './src/entry-client.js'
   },
+
+  resolve: {
+    alias: {
+      'createApi': './create-api-client'
+    }
+  },
+
   plugins: [
     new VueSSRClientPlugin()
   ]

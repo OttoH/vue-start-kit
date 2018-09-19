@@ -1,0 +1,75 @@
+docker-repo-gln: &docker-repo-gln-uit docker-registry.linecorp.com/line-taiwan/gln/gln-uit
+vos-host-url: &vos-host-url https://line-objects-dev.com/gln-markup/
+
+kubernetes-secret-dev: &kubernetes-secret-dev
+  - source: kubernetes_token_dev
+    target: kubernetes_token
+
+services:
+  chromedriver:
+    image: selenium/standalone-chrome:3.7.1-argon
+    environment:
+      - VNC_ENABLED=true
+      - EXPOSE_X11=true
+
+pipeline:
+  build:
+    group: build
+    image: docker
+    commands:
+     - export IMAGE_NAME=docker-registry.linecorp.com/line-taiwan/jim-huang/newbie-project:${DRONE_COMMIT_SHA}
+     - docker build -t $IMAGE_NAME .
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    when:
+      event: [ push ]
+      branch:
+        exclude: [ master/* ]
+  build_test:
+    image: node:6.9.2
+    commands:
+      - npm install
+    when:
+      event: [ push ]
+      branch:
+        exclude: [ master/* ]
+  unittest:
+    group: test
+    image: docker-registry.linecorp.com/line-taiwan/jim-huang/newbie-project:${DRONE_COMMIT_SHA}
+    commands:
+      - npm run test
+    when:
+      event: [ push ]
+      branch:
+        exclude: [ master/* ]
+  app:
+    group: test
+    image: docker-registry.linecorp.com/line-taiwan/jim-huang/newbie-project:${DRONE_COMMIT_SHA}
+    detach: true
+    when:
+      event: [ push ]
+      branch:
+        exclude: [ master/* ]
+  test_message:
+    image: docker
+    commands:
+      - echo 'unit testing finished'
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    when:
+      local: false
+      event: [push]
+      branch:
+        exclude: [ master/* ]
+  # deploy to now automatically
+  deploy:
+    group: deploy
+    image: docker-registry.linecorp.com/line-taiwan/jim-huang/newbie-project:${DRONE_COMMIT_SHA}
+    secrets: *now_token
+    commands:
+      - npm run build
+      - now --token $$NOW_TOKEN && now alias --token $$NOW_TOKEN && && now rm my-app  --token $$NOW_TOKEN --safe --yes
+    when:
+      event: [push]
+      branch:
+        include: [ master/* ]

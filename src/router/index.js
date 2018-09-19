@@ -3,8 +3,8 @@ import Router from 'vue-router'
 
 Vue.use(Router)
 
-const HelloWorldView = () => import('../components/Helloworld.vue')
-const OtherWorldView = () => import('../components/OtherWorld.vue')
+const PieceWordsView = () => import('../components/PieceWords.vue')
+const MoraMoraView = () => import('../components/MoraMora.vue')
 
 export function createRouter () {
   return new Router({
@@ -12,9 +12,9 @@ export function createRouter () {
     fallback: false,
     scrollBehavior: () => ({ y: 0 }),
     routes: [
-      { path: '/helloworld', component: HelloWorldView },
-      { path: '/otherworld', component: OtherWorldView },
-      { path: '/', redirect: '/helloworld' }
+      { path: '/piecewords', component: PieceWordsView, props: { msg: 'passing props to HelloWorld'} },
+      { path: '/moramora', component: MoraMoraView },
+      { path: '/', redirect: '/piecewords' }
     ]
   })
 }
