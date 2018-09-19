@@ -13,43 +13,42 @@ exports.install = function (Vue, duration = 1200) {
         }
 
         // Define variable
-        let self = this
-        this.pressTimer = null
+        let pressTimer = null
 
         // Define funtion handlers
         // Create timeout ( run function after 1s )
-        this.start = (e) => {
+        const start = (e) => {
 
             if (e.type === 'click' && e.button !== 0) {
                 return;
             }
 
-            clearTimeout(self._timeout)
+            clearTimeout(pressTimer)
 
             if (pressTimer === null) {
-                self.pressTimer = setTimeout(() => {
+                pressTimer = setTimeout(() => {
                     binding.value.call(this, e)
                 }, duration)
             }
         }
 
         // Cancel Timeout
-        this.cancel = (e) => {
+        const cancel = (e) => {
             // Check if timer has a value or not
-            if (self.pressTimer !== null) {
-                clearTimeout(self.pressTimer)
-                self.pressTimer = null
+            if (pressTimer !== null) {
+                clearTimeout(pressTimer)
+                pressTimer = null
             }
         }
 
         // Add Event listeners
-        el.addEventListener("mousedown", this.start);
-        el.addEventListener("touchstart", this.start);
+        el.addEventListener("mousedown", start);
+        el.addEventListener("touchstart", start);
         // Cancel timeouts if this events happen
-        el.addEventListener("click", this.cancel);
-        el.addEventListener("mouseout", this.cancel);
-        el.addEventListener("touchend", this.cancel);
-        el.addEventListener("touchcancel", this.cancel);
+        el.addEventListener("click", cancel);
+        el.addEventListener("mouseout", cancel);
+        el.addEventListener("touchend", cancel);
+        el.addEventListener("touchcancel", cancel);
     },
     unbind: function (el) {
       // Add Event listeners

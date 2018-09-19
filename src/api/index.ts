@@ -1,7 +1,7 @@
 declare const Promise: any
 
 // this is aliased in webpack config based on server/client build
-import { createAPI } from 'createApi'
+import { createAPI } from './create-api-client'
 
 const logRequests = !!process.env.DEBUG_API
 
