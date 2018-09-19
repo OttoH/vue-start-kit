@@ -106,5 +106,9 @@
       "html",
       "text-summary"
     ]
+  },
+  "now": {
+    "name": "my-app",
+    "alias": "justangon-liff-newbee.now.sh"
   }
 }
